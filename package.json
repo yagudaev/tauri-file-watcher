@@ -1,0 +1,22 @@
+{
+  "name": "tauri-file-watcher",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "client": "npm run dev --workspace=client",
+    "server": "npm run dev --workspace=server",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build --workspace=client"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "A Tauri application with Express.js backend for file watching",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri File Watcher</title>
+    <script type="module" src="/main.js" defer></script>
+  </head>
+
+  <body>
+    <main class="container">
+      <h1>Tauri File Watcher</h1>
+
+      <div class="row">
+        <a href="https://tauri.app" target="_blank">
+          <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
+        </a>
+      </div>
+      
+      <div class="file-watcher">
+        <div class="directory-selection">
+          <h2>Select Directory to Watch</h2>
+          <button id="select-dir-btn">Choose Directory</button>
+          <p id="selected-dir">No directory selected</p>
+        </div>
+        
+        <div class="watch-controls">
+          <button id="start-watching-btn" disabled>Start Watching</button>
+          <button id="stop-watching-btn" disabled>Stop Watching</button>
+        </div>
+        
+        <div class="file-events">
+          <h2>File Events</h2>
+          <div id="server-status">Server Status: Disconnected</div>
+          <div id="events-list" class="events-container"></div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
