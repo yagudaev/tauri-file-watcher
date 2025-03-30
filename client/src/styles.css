@@ -65,7 +65,9 @@ h2 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.directory-selection, .watch-controls, .file-events {
+.directory-selection,
+.watch-controls,
+.file-events {
   padding: 1rem;
   border-radius: 6px;
   background-color: #f9f9f9;
@@ -113,7 +115,7 @@ button:disabled {
 }
 
 #start-watching-btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 #start-watching-btn:hover {
@@ -160,11 +162,11 @@ button:disabled {
 }
 
 .event-item.added {
-  border-left-color: #4CAF50;
+  border-left-color: #4caf50;
 }
 
 .event-item.changed {
-  border-left-color: #2196F3;
+  border-left-color: #2196f3;
 }
 
 .event-item.removed {
@@ -172,11 +174,11 @@ button:disabled {
 }
 
 .event-item.info {
-  border-left-color: #9E9E9E;
+  border-left-color: #9e9e9e;
 }
 
 .event-item.error {
-  border-left-color: #FF5722;
+  border-left-color: #ff5722;
   background-color: #fff8f6;
 }
 
@@ -206,7 +208,9 @@ button:disabled {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
-  .directory-selection, .watch-controls, .file-events {
+  .directory-selection,
+  .watch-controls,
+  .file-events {
     background-color: #2a2a2a;
   }
 

@@ -10,13 +10,16 @@
     "client": "npm run dev --workspace=client",
     "server": "npm run dev --workspace=server",
     "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
-    "build": "npm run build --workspace=client"
+    "build": "npm run build --workspace=client",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "A Tauri application with Express.js backend for file watching",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "prettier": "^3.1.0"
   }
 }

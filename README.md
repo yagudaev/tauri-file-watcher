@@ -19,7 +19,7 @@ A file watching application built with Tauri and Express.js in a monorepo struct
 ### Prerequisites
 
 - Node.js (v14 or higher)
-- npm 
+- npm
 - Rust and Cargo (for Tauri)
 
 ### Installation
@@ -55,6 +55,7 @@ npm run client
 ### Server (Express.js)
 
 The server uses:
+
 - Express.js for the REST API
 - Chokidar for file system watching
 - Server-Sent Events (SSE) for real-time updates
@@ -62,6 +63,7 @@ The server uses:
 ### Client (Tauri)
 
 The client uses:
+
 - Tauri for the desktop application framework
 - Vanilla JavaScript for the UI
 - Server-Sent Events for receiving real-time updates from the server
