@@ -31,8 +31,9 @@ async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            let tray = TrayIconBuilder::new().build(app)?;
-            // tray.set_icon("icon.png").unwrap();
+            let tray = TrayIconBuilder::new()
+                .icon(app.default_window_icon().unwrap().clone())
+                .build(app)?;
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
