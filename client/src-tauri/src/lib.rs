@@ -14,7 +14,7 @@ async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
         let mut w = notify::recommended_watcher(move |r: Result<notify::Event, notify::Error>| {
             if let Ok(e) = r {
                 if matches!(e.kind, notify::EventKind::Create(_)) && !e.paths.is_empty() {
-                    println!("[RUST]: File added: {}", e.paths[0].to_string_lossy());
+                    println!("[rust]: File added: {}", e.paths[0].to_string_lossy());
                     app.emit("file-added", e.paths[0].to_string_lossy()).unwrap_or(());
                 }
             }
@@ -68,7 +68,7 @@ pub fn run() {
                     }
                 })
                 .build(app)?;
-                
+
             // Hide the main window by default
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.hide();
