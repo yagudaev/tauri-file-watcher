@@ -1,18 +1,28 @@
+use notify::{Watcher, RecursiveMode};
+use tauri::Manager;
+use tauri::Emitter;
+ use tauri_plugin_dialog::DialogExt;
+
 #[tauri::command]
 async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
-    use tauri_plugin_dialog::DialogExt;
 
-    let file_path = app.dialog()
-        .file()
-        .blocking_pick_folder();
+    let path = app.dialog().file().blocking_pick_folder().ok_or("No selection")?;
+    let path_str = path.to_string();
+    let path_for_thread = path_str.clone();
 
-    match file_path {
-        Some(path) => Ok(path.to_string()),
-        None => Err("No directory selected".to_string())
-    }
+    std::thread::spawn(move || {
+        let mut w = notify::recommended_watcher(move |r: Result<notify::Event, notify::Error>| {
+            if let Ok(e) = r {
+                if matches!(e.kind, notify::EventKind::Create(_)) && !e.paths.is_empty() {
+                    app.emit("file-added", e.paths[0].to_string_lossy()).unwrap_or(());
+                }
+            }
+        }).unwrap();
+        w.watch(path_for_thread.as_ref(), RecursiveMode::Recursive).unwrap();
+        std::thread::park();
+    });
 
-    // watch directory and emit when a file is added
-
+    Ok(path_str.clone())
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
