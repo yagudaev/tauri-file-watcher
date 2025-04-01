@@ -10,6 +10,9 @@ async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
         Some(path) => Ok(path.to_string()),
         None => Err("No directory selected".to_string())
     }
+
+    // watch directory and emit when a file is added
+
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
