@@ -32,9 +32,11 @@ pub fn run() {
         .setup(|app| {
             // Create menu items as shown in the docs
             let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+            let show_item = MenuItem::with_id(app, "show", "Show Window", true, None::<&str>)?;
+            let hide_item = MenuItem::with_id(app, "hide", "Hide Window", true, None::<&str>)?;
 
             // Build menu with items
-            let menu = Menu::with_items(app, &[&quit_item])?;
+            let menu = Menu::with_items(app, &[&show_item, &hide_item, &quit_item])?;
 
             // Create tray with menu
             TrayIconBuilder::new()
@@ -43,6 +45,19 @@ pub fn run() {
                 .show_menu_on_left_click(true)
                 .on_menu_event(|app_handle, event| {
                     match event.id.as_ref() {
+                        "show" => {
+                            println!("Show window menu item clicked");
+                            if let Some(window) = app_handle.app_handle().get_webview_window("main") {
+                                let _ = window.show();
+                                let _ = window.set_focus();
+                            }
+                        }
+                        "hide" => {
+                            println!("Hide window menu item clicked");
+                            if let Some(window) = app_handle.app_handle().get_webview_window("main") {
+                                let _ = window.hide();
+                            }
+                        }
                         "quit" => {
                             println!("Quit menu item clicked");
                             app_handle.app_handle().exit(0);
@@ -53,6 +68,11 @@ pub fn run() {
                     }
                 })
                 .build(app)?;
+                
+            // Hide the main window by default
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.hide();
+            }
 
             Ok(())
         })
