@@ -2,6 +2,7 @@ use notify::{Watcher, RecursiveMode};
 use tauri::Manager;
 use tauri::Emitter;
 use tauri_plugin_dialog::DialogExt;
+use tauri::tray::TrayIconBuilder;
 
 #[tauri::command]
 async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
@@ -29,6 +30,11 @@ async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .setup(|app| {
+            let tray = TrayIconBuilder::new().build(app)?;
+            // tray.set_icon("icon.png").unwrap();
+            Ok(())
+        })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![select_directory])
