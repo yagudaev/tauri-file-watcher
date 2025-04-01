@@ -1,20 +1,27 @@
-// Ultra-minimal Tauri file watcher
 window.addEventListener('DOMContentLoaded', () => {
-  // Hide unused UI
-  ['#server-status', '#start-watching-btn', '#stop-watching-btn'].forEach(id => 
-    document.querySelector(id).style.display = 'none')
-  
-  // Listen for file events
   window.__TAURI__.event.listen('file-added', e => {
     const div = document.createElement('div')
     div.innerHTML = `${new Date().toLocaleTimeString()} | ${e.payload}`
     document.querySelector('#events-list').prepend(div)
+    postFileToServer(e.payload)
   })
 
-  // Select directory and start watching
   document.querySelector('#select-dir-btn').addEventListener('click', () => {
-    window.__TAURI__.core.invoke('select_directory')
-      .then(dir => dir && (document.querySelector('#selected-dir').textContent = `Watching: ${dir}`))
+    window.__TAURI__.core
+      .invoke('select_directory')
+      .then(
+        dir => dir && (document.querySelector('#selected-dir').textContent = `Watching: ${dir}`)
+      )
       .catch(() => {})
   })
 })
+
+async function postFileToServer(filePath) {
+  await fetch('http://localhost:3000/files', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ path: filePath }),
+  })
+}
