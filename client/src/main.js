@@ -1,6 +1,5 @@
 // Import Tauri API
 const { invoke } = window.__TAURI__.core
-const { open } = window.__TAURI__.dialog
 const { appWindow } = window.__TAURI__.window
 
 // Server configuration
@@ -131,11 +130,8 @@ window.addEventListener('DOMContentLoaded', () => {
   // Set up event listeners
   selectDirBtn.addEventListener('click', async () => {
     try {
-      const selected = await open({
-        directory: true,
-        multiple: false,
-        title: 'Select Directory to Watch',
-      })
+      // Use invoke to call a custom command for directory selection
+      const selected = await invoke('select_directory')
 
       if (selected) {
         selectedDirectory = selected
