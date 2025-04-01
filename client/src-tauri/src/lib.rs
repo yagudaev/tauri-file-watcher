@@ -1,7 +1,7 @@
 use notify::{Watcher, RecursiveMode};
 use tauri::Manager;
 use tauri::Emitter;
- use tauri_plugin_dialog::DialogExt;
+use tauri_plugin_dialog::DialogExt;
 
 #[tauri::command]
 async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
@@ -14,6 +14,7 @@ async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
         let mut w = notify::recommended_watcher(move |r: Result<notify::Event, notify::Error>| {
             if let Ok(e) = r {
                 if matches!(e.kind, notify::EventKind::Create(_)) && !e.paths.is_empty() {
+                    println!("[RUST]: File added: {}", e.paths[0].to_string_lossy());
                     app.emit("file-added", e.paths[0].to_string_lossy()).unwrap_or(());
                 }
             }
