@@ -1,12 +1,10 @@
 use notify::{Watcher, RecursiveMode};
-use tauri::Manager;
 use tauri::Emitter;
 use tauri_plugin_dialog::DialogExt;
-use tauri::tray::TrayIconBuilder;
+use tauri::{menu::{Menu, MenuItem}, tray::TrayIconBuilder};
 
 #[tauri::command]
 async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
-
     let path = app.dialog().file().blocking_pick_folder().ok_or("No selection")?;
     let path_str = path.to_string();
     let path_for_thread = path_str.clone();
@@ -31,11 +29,22 @@ async fn select_directory(app: tauri::AppHandle) -> Result<String, String> {
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            let tray = TrayIconBuilder::new()
+            // Create menu items as shown in the docs
+            let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+
+            // Build menu with items
+            let menu = Menu::with_items(app, &[&quit_item])?;
+
+            // Create tray with menu
+            TrayIconBuilder::new()
                 .icon(app.default_window_icon().unwrap().clone())
+                .menu(&menu)
+                .show_menu_on_left_click(true)
                 .build(app)?;
+
             Ok(())
         })
+
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![select_directory])
