@@ -1,5 +1,6 @@
 use notify::{Watcher, RecursiveMode};
 use tauri::Emitter;
+use tauri::Manager;
 use tauri_plugin_dialog::DialogExt;
 use tauri::{menu::{Menu, MenuItem}, tray::TrayIconBuilder};
 
@@ -40,6 +41,17 @@ pub fn run() {
                 .icon(app.default_window_icon().unwrap().clone())
                 .menu(&menu)
                 .show_menu_on_left_click(true)
+                .on_menu_event(|app_handle, event| {
+                    match event.id.as_ref() {
+                        "quit" => {
+                            println!("Quit menu item clicked");
+                            app_handle.app_handle().exit(0);
+                        }
+                        _ => {
+                            println!("Menu item {:?} not handled", event.id);
+                        }
+                    }
+                })
                 .build(app)?;
 
             Ok(())
